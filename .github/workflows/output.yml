@@ -3,6 +3,11 @@ on: [push, workflow_dispatch]
 jobs:
   info:
     runs-on: ubuntu-latest
+    
+    concurrency: # Ensure only one run per branch
+      group: 'output-project-${{ github.ref }}'
+      cancel-in-progress: true
+
     steps:
       - name: Output GitHub context
         run: echo "${{ toJSON(github) }}"
