@@ -15,7 +15,7 @@ jobs:
       - name: Run tests
         run: npm test
   deploy:
-    needs: test. # [Ensure tests pass before deploying, add multiple jobs if needed]
+    needs: test # [Ensure tests pass before deploying, add multiple jobs if needed]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
