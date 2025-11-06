@@ -1,0 +1,22 @@
+name: Output Project
+on: [push, workflow_dispatch]
+jobs:
+  output:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output GitHub context
+        run: echo "${{ toJSON(github) }}"
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Output Project
+        run: echo "Outputting project..."
