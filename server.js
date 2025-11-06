@@ -16,7 +16,25 @@ app.get('/api', (req, res) => {
     res.json({ message: 'Welcome to the API' });
 });
 
-// Start server
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
+app.get('/hello', (req, res) => {
+  res.status(200).json({ message: 'Hello, World!' });
 });
+
+app.post('/sum', (req, res) => {
+  const { a, b } = req.body;
+  // Validate inputs
+  if (typeof a !== 'number' || typeof b !== 'number') {
+    return res.status(400).json({ error: 'Invalid input. Numbers expected.' });
+  }
+  const result = a + b;
+  res.status(200).json({ result });
+});
+
+module.exports = app;
+
+// Start server
+if (require.main === module) {
+    app.listen(port, () => {
+        console.log(`Server is running at http://localhost:${port}`);
+    });
+}
