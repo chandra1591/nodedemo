@@ -1,19 +1,22 @@
 name: Deploy Project
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types:
+      - opened
     branches:
       - main
+      - 'dev-*' # dev-prefixed branches and dev-new dec-this-is-new
+      - 'feat/**' # feat/new feat/new/buton
+      # developer-1
+  workflow_dispatch:
   push:
     branches:
       - main
-        - 'dev-*' # dev-prefixed branches and dev-new dec-this-is-new
+      - 'dev-*' # dev-prefixed branches and dev-new dec-this-is-new
       - 'feat/**' # feat/new feat/new/buton
       # developer-1
-    paths:
-        - '.github/workflows/node-one.yml' # Trigger only if this workflow file is changed
-  
-  workflow_dispatch:
+    paths-ignored:
+        - '.github/workflows/*' # Trigger only if this workflow file is changed
 jobs:
   test:
     runs-on: ubuntu-latest
