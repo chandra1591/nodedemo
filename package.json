@@ -5,7 +5,9 @@
   "scripts": {
     "start": "node server.js",
     "build": "echo 'No build step needed for plain JS'",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "repository": {
     "type": "git",
@@ -22,7 +24,12 @@
     "express": "^5.1.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^16.5.0",
     "jest": "^30.2.0",
+    "prettier": "^3.6.2",
     "supertest": "^7.1.4",
     "typescript": "^5.9.3"
   }
