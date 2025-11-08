@@ -3,39 +3,38 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch: 
-
 jobs:
-# Multiple jobs for linting, testing, and deployment
-  lint:
-      runs-on: ubuntu-latest
-      steps:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint Project
+        run: npm run lint
+      - name: Test Project
+        run: npm test
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
         - name: Checkout code
           uses: actions/checkout@v3
         - name: Install dependencies
           run: npm ci
-        - name: Lint Project
-          run: npm run lint
-  test:
-    needs: lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Install dependencies
-        run: npm ci
-      - name: Test Project
-        run: npm test   
-
+        - name: Build Project
+          run: npm run build
+        - name: Upload Build Artifacts
+          uses: actions/upload-artifact@v3
+          with:
+            name: dist-files
+            path: |
+                dist
+                package.json
   deploy:
-    needs: test
+    needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Install dependencies
-        run: npm ci
-      - name: Build Project
-        run: npm run build
-      - name: Deploy to Server
-        run: echo "Deploying to server..."
+        - name: Deploy to Server
+          run: echo "Deploying to server..."
