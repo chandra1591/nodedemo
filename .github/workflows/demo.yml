@@ -25,6 +25,8 @@ jobs:
           run: npm ci
         - name: Build Project
           run: npm run build
+        - name: Publish Html fIlename
+          run: find dist -name "*.html"
         - name: Upload Build Artifacts
           uses: actions/upload-artifact@v4
           with:
@@ -42,6 +44,6 @@ jobs:
           with:
             name: dist-files
         - name: Output contents of dist
-          run: ls -la dist
+          run: ls
         - name: Deploy to Server
           run: echo "Deploying to server..."
