@@ -3,11 +3,13 @@ on:
   push:
     branches:
       - main
+env:
+  GLOBAL_ENV: Production
 jobs:
   test:
     env:
       NODE_ENV: test
-      MY_NAME: Chandrabhan
+      MY_NAME: ${{secrets.MY_NAME}}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -34,6 +36,7 @@ jobs:
         run: |
           echo "Node Version: $NODE_ENV"
           echo "My Name: $MY_NAME"
+          echo "Global Environment: $GLOBAL_ENV"
 
   build:
     needs: test
