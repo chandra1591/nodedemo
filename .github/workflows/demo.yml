@@ -5,6 +5,9 @@ on:
       - main
 jobs:
   test:
+    env:
+      NODE_ENV: test
+      MY_NAME: Chandrabhan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -27,6 +30,11 @@ jobs:
         run: npm run lint
       - name: Test Project
         run: npm test
+      - name: Output information
+        run: |
+          echo "Node Version: $NODE_ENV"
+          echo "My Name: $MY_NAME"
+
   build:
     needs: test
     runs-on: ubuntu-latest
