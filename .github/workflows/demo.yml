@@ -7,9 +7,12 @@ env:
   GLOBAL_ENV: Production
 jobs:
   test:
+    environment: testing # Uncomment to use environment protection rules
     env:
       NODE_ENV: test
       MY_NAME: ${{secrets.MY_NAME}}
+      USER_NAME: ${{secrets.USER_NAME}}
+      PASSWORD: ${{secrets.PASSWORD}}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -37,6 +40,8 @@ jobs:
           echo "Node Version: $NODE_ENV"
           echo "My Name: $MY_NAME"
           echo "Global Environment: $GLOBAL_ENV"
+          echo "Job Environment: $USER_NAME"
+          echo "Password: $PASSWORD"
 
   build:
     needs: test
