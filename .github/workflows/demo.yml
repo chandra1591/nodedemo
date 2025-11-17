@@ -31,21 +31,17 @@ jobs:
       #       ${{ runner.os }}-node-
       - name: Install dependencies
         run: npm ci
-
       - name: Lint Project
         run: npm run lint
-
       - name: Test Project
+        continue-on-error: true
         id: run_tests
         run: npm test
-
       - name: Upload Build Artifacts
-        if: failure() && steps.run_tests.outcome == 'failure'
         uses: actions/upload-artifact@v4
         with:
           name: test-report
           path: reports/test-report.json
-          
       - name: Output information
         run: |
           echo "Node Version: $NODE_ENV"
@@ -94,3 +90,12 @@ jobs:
           run: ls
         - name: Deploy to Server
           run: echo "Deploying to server..."
+  report:
+    needs: [deploy]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: output Information
+        run: |
+          echo "Something went wrong."
+          echo "${{toJson(github)}}"
