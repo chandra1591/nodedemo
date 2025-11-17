@@ -36,9 +36,11 @@ jobs:
         run: npm run lint
 
       - name: Test Project
+        id: run_tests
         run: npm test
 
       - name: Upload Build Artifacts
+        if: failure() && steps.run_tests.outcome == 'failure'
         uses: actions/upload-artifact@v4
         with:
           name: test-report
@@ -92,3 +94,11 @@ jobs:
           run: ls
         - name: Deploy to Server
           run: echo "Deploying to server..."
+  report:
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: output Information
+        run: |
+          echo "Something went wrong."
+          echo "${{github}}"
