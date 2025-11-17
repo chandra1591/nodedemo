@@ -95,6 +95,7 @@ jobs:
         - name: Deploy to Server
           run: echo "Deploying to server..."
   report:
+    needs: [test,deploy]
     if: failure()
     runs-on: ubuntu-latest
     steps:
