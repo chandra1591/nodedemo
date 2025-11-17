@@ -71,7 +71,7 @@ jobs:
 
         - name: Publish Html fIlename
           run: find dist -name "*.html"
-
+          
         - name: Upload Build Artifacts
           uses: actions/upload-artifact@v4
           with:
@@ -88,9 +88,7 @@ jobs:
           uses: actions/download-artifact@v4
           with:
             name: dist-files
-            
         - name: Output contents of dist
-          run: ls 
-
+          run: ls
         - name: Deploy to Server
-          run: echo "Deploying to server..."`
+          run: echo "Deploying to server..."
