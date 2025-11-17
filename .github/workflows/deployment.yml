@@ -8,11 +8,13 @@ jobs:
         - name: Checkout code
           uses: actions/checkout@v3
         - name: Cache dependancies
+          id: cache
           uses: actions/cache@v3
           with:
-            path: ~/.npm
+            path: node_modules # ~/.npm
             key: deps-node-module-${{ hashFiles('**/package-lock.json') }}
         - name: Install dependencies
+          if: ${{ steps.cache.outputs['cache-hit'] != 'true' }}
           run: npm ci
         - name: Lint Project
           run: npm run lint
@@ -23,11 +25,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Cache dependancies
+        id: cache
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: node_modules # ~/.npm
           key: deps-node-module-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
+        if: ${{ steps.cache.outputs['cache-hit'] != 'true' }}
         run: npm ci
       - name: Test Project
         id: run_tests
@@ -39,6 +43,37 @@ jobs:
         with:
           name: test-report
           path: reports/test-report.json  
+  
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+        - name: Cache dependancies
+          id: cache
+          uses: actions/cache@v3
+          with:
+            path: node_modules # ~/.npm
+            key: deps-node-module-${{ hashFiles('**/package-lock.json') }}  
+        - name: Install dependencies
+          if: ${{ steps.cache.outputs['cache-hit'] != 'true' }}
+          run: npm ci
+
+        - name: Build Project
+          run: npm run build
+
+        - name: Publish Html fIlename
+          run: find dist -name "*.html"
+          
+        - name: Upload Build Artifacts
+          uses: actions/upload-artifact@v4
+          with:
+            name: dist-files
+            path: dist
+            # path: |
+            #     dist
+            #     package.json
 
   deploy:
     needs: test
@@ -47,22 +82,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Cache dependancies
+        id: cache
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: node_modules # ~/.npm
           key: deps-node-module-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
+        if: ${{ steps.cache.outputs['cache-hit'] != 'true' }}
         run: npm ci
       - name: Build Project
         run: npm run build
       - name: Deploy to Server
         run: echo "Deploying to server..."
+
   report:
     needs: [lint,deploy]
-    if: failure()
+    if: failure() && needs.deploy.result == 'failure'
     runs-on: ubuntu-latest
     steps:
       - name: output Information
         run: |
           echo "Something went wrong."
-          echo "${{github}}"
+          echo "${{toJson(github)}}"
