@@ -32,6 +32,9 @@ jobs:
             - name: Set result output
               id: set-result
               run: |
-                echo "::set-output name=result::Deployment completed successfully"
+               echo "result=Deployment completed successfully" >> $GITHUB_OUTPUT
+            - name: Print Outcome (within the same job)
+              run: |
+                echo "Deployment Outcome: ${{ steps.set-result.outputs.result }}"
               
           
