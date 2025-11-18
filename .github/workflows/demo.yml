@@ -83,6 +83,8 @@ jobs:
     uses: ./.github/workflows/reusable.yml
     with:
       deploy_env: dist-files
+    # secrets:
+    #   SOME_SECRET: ${{ secrets.SOME_SECRET}}
   report:
     needs: [deploy]
     if: failure()
