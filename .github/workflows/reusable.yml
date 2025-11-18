@@ -4,5 +4,11 @@ jobs:
     deploy:
         runs-on: ubuntu-latest
         steps:
+            - name: Download Build Artifacts
+              uses: actions/download-artifact@v4
+              with:
+                name: dist-files
+            - name: Output contents of dist
+              run: ls
             - name: Deploy Application
               run: echo "Deploying application..."
