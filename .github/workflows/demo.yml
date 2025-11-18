@@ -85,13 +85,15 @@ jobs:
       deploy_env: dist-files
     # secrets:
     #   SOME_SECRET: ${{ secrets.SOME_SECRET}}
-    
+
   print-deploy-result:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
       - name: Print deploy output
-        run: echo "${{ needs.deploy.outputs.result }}"
+        run: |
+          echo "${{ needs.deploy.outputs.result }}"
+          echo "${{ needs.deploy.outputs.info }}"
 
   report:
     needs: [deploy]
