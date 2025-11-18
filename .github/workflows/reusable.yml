@@ -33,3 +33,5 @@ jobs:
               id: set-result
               run: |
                echo "result=Deployment completed successfully" >> "$GITHUB_OUTPUT"
+            - name: Print the outcome
+              run: echo "The outcome is ${{ steps.set-result.outputs.result }}"
