@@ -81,7 +81,8 @@ jobs:
   deploy:
     needs: build
     uses: ./.github/workflows/reusable.yml
-
+    with:
+      deploy_env: dist-files
   report:
     needs: [deploy]
     if: failure()
