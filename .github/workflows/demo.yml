@@ -80,16 +80,17 @@ jobs:
             #     package.json
   deploy:
     needs: build
-    runs-on: ubuntu-latest
-    steps:
-        - name : Download Build Artifacts
-          uses: actions/download-artifact@v4
-          with:
-            name: dist-files
-        - name: Output contents of dist
-          run: ls
-        - name: Deploy to Server
-          run: echo "Deploying to server..."
+    uses: ./.github/workflows/reusable.yml
+
+    # steps:
+    #     - name : Download Build Artifacts
+    #       uses: actions/download-artifact@v4
+    #       with:
+    #         name: dist-files
+    #     - name: Output contents of dist
+    #       run: ls
+    #     - name: Deploy to Server
+    #       run: echo "Deploying to server..."
   report:
     needs: [deploy]
     if: failure()

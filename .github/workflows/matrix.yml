@@ -15,7 +15,7 @@ jobs:
             os: ubuntu-latest
         exclude:
           - node-version: 16
-            os: [windows-latest,ubuntu-latest]
+            os: [ buntu-latest, windows-latest ]
 
     runs-on: ${{ matrix.os }}
 
