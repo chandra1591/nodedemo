@@ -18,7 +18,7 @@ on:
 jobs:
     deploy:
         outputs:
-            outcome: ${{ steps.set-result.outputs.result }}
+            outcome: ${{ steps.set-result.outputs.set-result }}
         runs-on: ubuntu-latest
         steps:
             - name: Download Build Artifacts
@@ -31,5 +31,5 @@ jobs:
               run: echo "Deploying application..."
             - name: Set result output
               id: set-result
-              run: echo "output_name=result::Deployment completed successfully"
+              run: echo "::set-output name=set-result::Deployment completed successfully"
           
