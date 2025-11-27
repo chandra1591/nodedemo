@@ -6,6 +6,10 @@ inputs:
     description: 'Enable or disable caching of dependencies'
     required: false
     default: 'true'
+  outputs:
+    used-cache:
+      description: 'Indicates whether the cache was used'
+      value: ${{ steps.install.output.cache }}
 runs:
   using: "composite"
   steps:
@@ -17,8 +21,10 @@ runs:
         path: node_modules # ~/.npm
         key: deps-node-module-${{ hashFiles('**/package-lock.json') }}
     - name: Install Dependencies
+      id: install
       if: ${{ steps.cache.outputs['cache-hit'] != 'true' || inputs.caching == 'false' }}
       run: |
         npm ci
         npm audit fix
+        echo "::set-output name=cache::'${{inputs.caching}}'"
       shell: bash
