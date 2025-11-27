@@ -1,0 +1,16 @@
+name: "Get Cached Dependencies"
+description: Retrieve cached dependencies for the project
+author: Your Name <Chandrabhan Aher>
+runs:
+  using: "composite"
+  steps:
+    - name: Restore Cached Dependencies
+      id: cache
+      uses: actions/cache@v3
+      with:
+        path: node_modules
+        key: deps-node-module-${{ hashFiles('**/package-lock.json') }}
+    - name: Install Dependencies
+      if: ${{ steps.cache.outputs['cache-hit'] != 'true' }}
+      run: npm ci
+      shell: bash
