@@ -17,15 +17,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Cache dependancies
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules # ~/.npm
-          key: deps-node-module-${{ hashFiles('**/package-lock.json') }}
-      - name: Install dependencies
-        if: ${{ steps.cache.outputs['cache-hit'] != 'true' }}
-        run: npm ci
+      - name: Load & Cache dependancies
+        uses: ./.github/actions/cached-deps
       - name: Test Project
         id: run_tests
         run: npm test
@@ -43,15 +36,8 @@ jobs:
     steps:
         - name: Checkout code
           uses: actions/checkout@v3
-        - name: Cache dependancies
-          id: cache
-          uses: actions/cache@v3
-          with:
-            path: node_modules # ~/.npm
-            key: deps-node-module-${{ hashFiles('**/package-lock.json') }}  
-        - name: Install dependencies
-          if: ${{ steps.cache.outputs['cache-hit'] != 'true' }}
-          run: npm ci
+        - name: Load & Cache dependancies
+          uses: ./.github/actions/cached-deps
 
         - name: Build Project
           run: npm run build
@@ -74,15 +60,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Cache dependancies
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules # ~/.npm
-          key: deps-node-module-${{ hashFiles('**/package-lock.json') }}
-      - name: Install dependencies
-        if: ${{ steps.cache.outputs['cache-hit'] != 'true' }}
-        run: npm ci
+      - name: Load & Cache dependancies
+        uses: ./.github/actions/cached-deps
       - name: Build Project
         run: npm run build
       - name: Deploy to Server
