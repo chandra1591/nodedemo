@@ -9,7 +9,7 @@ inputs:
   outputs:
     used-cache:
       description: 'Indicates whether the cache was used'
-      value: teps.install.outputs.cache
+      value: steps.install.outputs.cache
 runs:
   using: "composite"
   steps:
@@ -20,12 +20,11 @@ runs:
       with:
         path: node_modules # ~/.npm
         key: deps-node-module-${{ hashFiles('**/package-lock.json') }}
-        
     - name: Install Dependencies
       id: install
       if: ${{ steps.cache.outputs['cache-hit'] != 'true' || inputs.caching == 'false' }}
       run: |
         npm ci
         npm audit fix
-        echo "cache=${{}{ inputs.caching }}" >> $GITHUB_OUTPUT
+        echo "::set-output name=cache::'${{ inputs.caching }}'"
       shell: bash
