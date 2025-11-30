@@ -26,9 +26,11 @@ function run() {
     // exec.exec('echo', ['Uploading files to S3...']);
     // exec.exec(`aws s3 sync ${distFolder} ${s3Uri} --region ${bucketRegion}`);
 
-    const webUrl = `http://${bucket}.s3-website-${bucketRegion}.amazonaws.com`;
-    core.notice(`Website URL: ${webUrl}`);
-    core.setOutput('website-url', webUrl);
+    // 3) Set output values
+    // 4) Website URL
+    // const webUrl = `http://${bucket}.s3-website-${bucketRegion}.amazonaws.com`;
+    // core.notice(`Website URL: ${webUrl}`);
+    // core.setOutput('website-url', webUrl);
 
 
     core.notice("This is a placeholder for S3 deployment logic.");
