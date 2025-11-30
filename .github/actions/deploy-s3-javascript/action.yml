@@ -12,6 +12,9 @@ discription: 'Deploy static website via AWS S3 using JavaScript'
 #     description: 'The folder containing the static website files to deploy'
 #     required: false
 #     default: 'dist'
+# outputs:
+#   website-url:
+#     description: 'The URL of the deployed website'
 runs:
   using: 'node16'
   main: 'main.js'

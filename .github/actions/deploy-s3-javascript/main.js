@@ -2,6 +2,9 @@ const core = require('@actions/core');
 //const github = require('@actions/github');
 //const exec = require('@actions/exec');
 
+// Using AWS Account credentials from GitHub Secrets
+// AWS_ACCESS_KEY_ID
+// AWS_SECRET_ACCESS_KEY
 
 
 function run() {
@@ -23,6 +26,9 @@ function run() {
     // exec.exec('echo', ['Uploading files to S3...']);
     // exec.exec(`aws s3 sync ${distFolder} ${s3Uri} --region ${bucketRegion}`);
 
+    const webUrl = `http://${bucket}.s3-website-${bucketRegion}.amazonaws.com`;
+    core.notice(`Website URL: ${webUrl}`);
+    core.setOutput('website-url', webUrl);
 
 
     core.notice("This is a placeholder for S3 deployment logic.");
