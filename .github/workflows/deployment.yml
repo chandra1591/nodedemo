@@ -73,6 +73,13 @@ jobs:
       - name: Deploy to Server
         run: echo "Deploying to server..."
 
+  information:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run custome action
+        uses: ./.github/actions/deploy-s3-javascript
+
+
   report:
     needs: [lint,deploy]
     if: failure() && needs.deploy.result == 'failure'
